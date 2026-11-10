@@ -3,7 +3,7 @@
 # Подготовка изначальной дериктории
 mkdir -p "$HOME/lab0" # Флаг -p: позволяет создавать каталоги, а если они существуют, игнорировать ошибку
 cd "$HOME/lab0"
-
+ 
 mkdir -p victor/kitchen victor/pastry victor/hall victor/reception victor/management archive claude_monet
 
 # Создание/запись в файл
@@ -55,7 +55,7 @@ echo "Ресторан Victor открывается вечером
 # r - 4
 # w - 2
 # x - 1 
-# Владелец, группа, исполнение
+# Владелец, группа, остальные
 
 chmod 755 victor
 chmod u=rwx,g=rx,o= victor/kitchen
@@ -103,3 +103,33 @@ cat victor/reception/reservations >> victor/management/vika_schedule
 
 # Перенос файла
 mv claude_monet/farewell_note victor/management/farewell_note
+
+# сортировка
+ls -lR | grep '^-' | grep -v 'copy' | sort -k5,5nr | head -n 5
+
+grep -rhiE 'victor|баринов' victor archive | grep -vi 'стар' | sort -r | head -n 6
+
+grep -rliE 'макс|кухн' victor/kitchen archive/claude_backup | wc -l
+
+{
+    head -n 1 victor/hall/guest_list
+    head -n 1 victor/hall/opening_tables
+    tail -n 1 victor/hall/guest_list
+    tail -n 1 victor/hall/opening_tables
+} | grep -iE 'гост|стол' | sort
+
+grep -vi 'десерт' victor/kitchen/tasting_menu | grep -iE 'макс|блюд' | sort -r | wc -w
+
+ls -lR | grep -E '^-[^ ]+ +2 ' | sort -k9,9r
+
+ls -lR | grep '^l' | sort -k9,9 | head -n 1
+
+#удаление 
+rm victor/management/opening_copy
+rm victor_menu
+rm victor/reception/hall_access
+rm victor/hall/guest_list_copy
+rm victor/management/farewell_note
+rmdir claude_monet
+rm archive/old_menu
+rm -r archive/claude_backup
